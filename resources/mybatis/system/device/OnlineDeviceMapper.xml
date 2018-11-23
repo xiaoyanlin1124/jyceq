@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.repository.system.device.OnlineDeviceDao">
+	<!-- com.jy.entity.system.device.OnlineDevice  -->
+ 	<resultMap id="base" type="OnlineDevice" ></resultMap>
+ 	<select id="find"  resultMap="base" parameterType="OnlineDevice">
+       SELECT t.* FROM JY_ONLINE_DEVICE t WHERE 1=1 
+       <if test="id != null and id!='' ">
+        	AND t.id=#{id}
+       </if>
+       <if test="deviceId != null and deviceId!='' ">
+        	AND t.deviceId=#{deviceId}
+       </if>
+    </select> 
+ 	<select id="findByPage"  resultMap="base" parameterType="OnlineDevice">
+       SELECT t.* FROM JY_ONLINE_DEVICE t WHERE 1=1 
+        <if test="param.id!= null and param.id!='' ">
+        	AND t.id=#{param.id}
+       </if>
+       <if test="param.isValid!= null">
+        	AND t.isValid=#{param.isValid}
+       </if>
+       <if test="param.keyWord!= null">
+        	AND (
+        	t.deviceId LIKE CONCAT('%',#{param.keyWord},'%')    
+        	OR   t.deviceName LIKE CONCAT('%',#{param.keyWord},'%')
+        	OR   t.deviceName LIKE CONCAT('%',#{param.keyWord},'%')
+        	)
+       </if>
+       order by t.createTime desc
+    </select>  
+    <select id="count"  resultType="int" parameterType="OnlineDevice">
+       SELECT count(*) FROM JY_ONLINE_DEVICE t WHERE 1=1 
+    </select>        
+ 	<insert id="insert"  parameterType="OnlineDevice">	
+ 	<![CDATA[
+	INSERT INTO JY_ONLINE_DEVICE(
+	id,
+	deviceId,
+	deviceName,
+	moduleId,
+	deviceModel,
+	isValid,
+	ipAdd,
+	cityAdd,
+	description,
+	createTime
+	) VALUES (
+	#{id},
+	#{deviceId},
+	#{deviceName},
+	#{moduleId},
+	#{deviceModel},
+	#{isValid},
+	#{ipAdd},
+	#{cityAdd},
+	#{description},
+	#{createTime}
+	)
+	]]>  
+	</insert>
+	<delete id="delete" parameterType="OnlineDevice">
+	DELETE FROM JY_ONLINE_DEVICE  WHERE 1=1 
+	AND id=#{id} 
+	</delete>
+	<delete id="deleteBatch" parameterType="java.util.List">
+	DELETE FROM JY_ONLINE_DEVICE 
+	WHERE id IN(
+		<foreach item="o" collection="list" open="" separator="," close="" >
+			#{o.id}
+		</foreach>
+		)
+	</delete>
+	<update id="update" parameterType="OnlineDevice">
+		UPDATE JY_ONLINE_DEVICE 
+		SET 
+			deviceId  =#{deviceId} ,
+			deviceName =#{deviceName},
+			moduleId=#{moduleId},
+			deviceModel=#{deviceModel},
+			description =#{description},
+			isValid=#{isValid},
+			ipAdd=#{ipAdd},
+			cityAdd=#{cityAdd},
+			updateTime =#{updateTime}
+		WHERE 
+			id=#{id}
+	</update>	
+	<update id="updateDeviceId" parameterType="OnlineDevice">
+		UPDATE JY_ONLINE_DEVICE 
+		SET 
+			deviceName =#{deviceName},
+			moduleId=#{moduleId},
+			deviceModel=#{deviceModel},
+			description =#{description},
+			isValid=#{isValid},
+			ipAdd=#{ipAdd},
+			cityAdd=#{cityAdd},
+			updateTime =#{updateTime}
+		WHERE 
+			deviceId=#{deviceId}
+	</update>	
+	 	<select id="findDeviceId"  resultMap="base" parameterType="OnlineDevice">
+       SELECT t.* FROM JY_ONLINE_DEVICE t WHERE 1=1 
+       <if test="id != null and id!='' ">
+        	AND t.id=#{id}
+       </if>
+       <if test="deviceId != null and deviceId!='' ">
+        	AND t.deviceId=#{deviceId}
+       </if>
+    </select> 
+</mapper>

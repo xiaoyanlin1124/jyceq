@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.repository.system.user.UserIPDao">
+	<!-- com.jy.entity.system.user.UserIPDao  -->
+ 	<resultMap id="base" type="UserIP" ></resultMap>
+ 	<select id="find"  resultMap="base" parameterType="UserIP">
+       SELECT t.* FROM JY_CEQ_USER_IPADD t WHERE 1=1 
+       <if test="id != null and id!='' ">
+        	AND t.id=#{id}
+       </if>
+       <if test="user_id != null and user_id !='' ">
+        	AND t.user_id=#{user_id}
+       </if>
+       <if test=" user_id==null and ip != null and ip !='' ">
+        	AND t.ip=#{ip} AND t.user_id is null
+       </if>
+    </select> 
+ 	<select id="findByPage"  resultMap="base" parameterType="UserIP">
+       SELECT t.* FROM JY_CEQ_USER_IPADD t WHERE 1=1 
+        <if test="param.id!= null and param.id!='' ">
+        	AND t.id=#{param.id}
+       </if>
+       <if test="param.keyWord!= null">
+        	AND (
+        	t.ip LIKE CONCAT('%',#{param.keyWord},'%')    
+        	)
+       </if>
+       order by t.createTime desc
+    </select>  
+    <select id="count"  resultType="int" parameterType="UserIP">
+       SELECT count(*) FROM JY_CEQ_USER_IPADD t WHERE 1=1 
+    </select>        
+ 	<insert id="insert"  parameterType="UserIP">	
+ 	<![CDATA[
+	INSERT INTO JY_CEQ_USER_IPADD(
+	id,	
+	ip,
+	create_ip,
+	user_id,	
+	createTime,	
+	updateTime,	
+	count
+	) VALUES (
+	#{id},
+	#{ip},
+	#{create_ip},
+	#{user_id},
+	#{createTime},
+	#{updateTime},
+	#{count}
+	)
+	]]>  
+	</insert>
+	<delete id="delete" parameterType="UserIP">
+	DELETE FROM JY_CEQ_USER_IPADD  WHERE 1=1 
+	AND id=#{id} 
+	</delete>
+	<delete id="deleteBatch" parameterType="java.util.List">
+	DELETE FROM JY_CEQ_USER_IPADD 
+	WHERE id IN(
+		<foreach item="o" collection="list" open="" separator="," close="" >
+			#{o.id}
+		</foreach>
+		)
+	</delete>
+	<update id="update" parameterType="UserIP">
+		UPDATE JY_CEQ_USER_IPADD 
+		SET 
+	id = #{id},
+	ip = #{ip},
+	create_ip = #{create_ip},
+	user_id = #{user_id},
+	createTime = #{createTime},
+	updateTime = #{updateTime},
+	count = #{count}
+		WHERE 
+			id=#{id}
+	</update>	
+
+</mapper>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.repository.system.user.UserCamearDao">
+	<!-- com.jy.entity.system.user.UserCamearDao  -->
+ 	<resultMap id="base" type="UserCamear" ></resultMap>
+ 	<select id="find"  resultMap="base" parameterType="UserCamear">
+       SELECT t.* FROM JY_CEQ_USER_CAMERA t WHERE 1=1 
+       <if test="id != null and id!='' ">
+        	AND t.id=#{id}
+       </if>
+       <if test="email != null and email!='' ">
+        	AND t.email=#{email}
+       </if>
+       <if test="phone != null and phone!='' ">
+        	AND t.phone=#{phone}
+       </if>
+        <if test="openid != null and openid!='' ">
+        	AND t.openid=#{openid}
+       </if>
+    </select> 
+     	<select id="findemailphone"  resultMap="base" parameterType="UserCamear">
+       SELECT t.* FROM JY_CEQ_USER_CAMERA t WHERE 1=1 
+       <if test="id != null and id!='' ">
+        	AND t.id=#{id}
+       </if>
+       <if test="email != null and email!='' ">
+        	AND t.email=#{email}
+       </if>
+       <if test="phone != null and phone!='' ">
+        	AND t.phone=#{phone}
+       </if>
+       		AND t.is_enabled = '1'
+    </select> 
+       <select id="finddevicesafe_key_value"  resultMap="base" parameterType="UserCamear">
+       SELECT t.* FROM JY_CEQ_USER_CAMERA t WHERE 1=1 
+       <if test="id != null and id!='' ">
+        	AND t.id=#{id}
+       </if>
+       <if test="safe_key_value != null and safe_key_value!='' ">
+        	AND t.safe_key_value=#{safe_key_value}
+       </if>
+    </select> 
+ 	<select id="findByPage"  resultMap="base" parameterType="UserCamear">
+       SELECT t.* FROM JY_CEQ_USER_CAMERA t WHERE 1=1 
+        <if test="param.id!= null and param.id!='' ">
+        	AND t.id=#{param.id}
+       </if>
+       <if test="param.keyWord!= null">
+        	AND (
+        	t.email LIKE CONCAT('%',#{param.keyWord},'%')    
+        	OR   t.phone LIKE CONCAT('%',#{param.keyWord},'%')
+        	OR   t.nickname LIKE CONCAT('%',#{param.keyWord},'%')
+        	)
+       </if>
+       order by t.createTime desc
+    </select>  
+    <select id="count"  resultType="int" parameterType="UserCamear">
+       SELECT count(*) FROM JY_CEQ_USER_CAMERA t WHERE 1=1 
+    </select>        
+ 	<insert id="insert"  parameterType="UserCamear">	
+ 	<![CDATA[
+	INSERT INTO JY_CEQ_USER_CAMERA(
+	id,	
+	openid,
+	user_id,
+	nickname,	
+	password,	
+	salt,	
+	updateTime,	
+	createTime,	
+	login_Time,
+	email,
+	phone,
+	sex,
+	is_enabled,	
+	locked_Time,		
+	login_failure_count,	
+	login_ip,		
+	language,	
+	safe_key_value,	
+	safe_key_expire,
+	verificationCode,	
+	verification_Time,	
+	verification_send_Time,
+	description,	
+	access_token,
+	access_type,
+	operation_password,
+	wxToken,
+	qqToken,
+	wbToken,
+	fbToken,
+	phoneBrand,
+	smsSum,
+	smsSurplus
+	) VALUES (
+	#{id},
+	#{openid},
+	#{user_id},
+	#{nickname},
+	#{password},
+	#{salt},
+	#{updateTime},
+	#{createTime},
+	#{login_Time},
+	#{email},
+	#{phone},
+	#{sex},
+	#{is_enabled},
+	#{locked_Time},
+	#{login_failure_count},
+	#{login_ip},
+	#{language},
+	#{safe_key_value},
+	#{safe_key_expire},
+	#{verificationCode},
+	#{verification_Time},
+	#{verification_send_Time},
+	#{description},
+	#{access_token},
+	#{access_type},
+	#{operation_password},
+	#{wxToken},
+	#{qqToken},
+	#{wbToken},
+	#{fbToken},
+	#{phoneBrand},
+	#{smsSum},
+	#{smsSurplus}
+	)
+	]]>  
+	</insert>
+	<delete id="delete" parameterType="UserCamear">
+	DELETE FROM JY_CEQ_USER_CAMERA  WHERE 1=1 
+	AND id=#{id} 
+	</delete>
+	<delete id="deleteBatch" parameterType="java.util.List">
+	DELETE FROM JY_CEQ_USER_CAMERA 
+	WHERE id IN(
+		<foreach item="o" collection="list" open="" separator="," close="" >
+			#{o.id}
+		</foreach>
+		)
+	</delete>
+	<update id="update" parameterType="UserCamear">
+		UPDATE JY_CEQ_USER_CAMERA 
+		SET 
+	id =#{id},	
+	openid =#{openid},	
+	user_id =#{user_id},
+	nickname =#{nickname},	
+	password =#{password},	
+	salt =#{salt},	
+	updateTime =#{updateTime},	
+	createTime =#{createTime},	
+	login_Time =#{login_Time},
+	email =#{email},
+	phone =#{phone},
+	sex =#{sex},
+	is_enabled =#{is_enabled},	
+	locked_Time =#{locked_Time},		
+	login_failure_count =#{login_failure_count},	
+	login_ip =#{login_ip},		
+	language =#{language},	
+	safe_key_value =#{safe_key_value},	
+	safe_key_expire =#{safe_key_expire},
+	verificationCode =#{verificationCode},	
+	verification_Time =#{verification_Time},	
+	verification_send_Time =#{verification_send_Time},
+	description =#{description},	
+	access_token =#{access_token},
+	access_type =#{access_type},
+	operation_password =#{operation_password},
+	wxToken =#{wxToken},
+	qqToken =#{qqToken},
+	wbToken =#{wbToken},
+	fbToken =#{fbToken},
+	phoneBrand =#{phoneBrand},
+	smsSum =#{smsSum},
+	smsSurplus =#{smsSurplus}
+		WHERE 
+			id=#{id}
+	</update>	
+</mapper>

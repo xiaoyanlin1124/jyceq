@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.repository.system.device.PushDeviceDao">
+	<!-- com.jy.entity.system.device.PushDevice  -->
+ 	<resultMap id="base" type="PushDevice" ></resultMap>
+ 	<select id="find"  resultMap="base" parameterType="PushDevice">
+       SELECT t.* FROM JY_PUSH_DEVICE t WHERE 1=1 
+       <if test="id != null and id!='' ">
+        	AND t.id=#{id}
+       </if>
+       <if test="deviceId != null and deviceId!='' ">
+        	AND t.deviceId=#{deviceId}
+       </if>
+       <if test="pushToken != null and pushToken!='' ">
+        	AND t.pushToken=#{pushToken}
+       </if>
+    </select> 
+ 	<select id="findByPage"  resultMap="base" parameterType="PushDevice">
+       SELECT t.* FROM JY_PUSH_DEVICE t WHERE 1=1 
+        <if test="param.id!= null and param.id!='' ">
+        	AND t.id=#{param.id}
+       </if>
+       <if test="param.isValid!= null">
+        	AND t.isValid=#{param.isValid}
+       </if>
+       <if test="param.keyWord!= null">
+        	AND (
+        	t.deviceId LIKE CONCAT('%',#{param.keyWord},'%')    
+        	OR   t.deviceId LIKE CONCAT('%',#{param.keyWord},'%')
+        	OR   t.deviceId LIKE CONCAT('%',#{param.keyWord},'%')
+        	)
+       </if>
+       order by t.createTime desc
+    </select>  
+    <select id="count"  resultType="int" parameterType="PushDevice">
+       SELECT count(*) FROM JY_PUSH_DEVICE t WHERE 1=1 
+    </select>        
+ 	<insert id="insert"  parameterType="PushDevice">	
+ 	<![CDATA[
+	INSERT INTO JY_PUSH_DEVICE(
+	id,
+	deviceId,
+	deviceModel,
+	isValid,
+	lockOnPush,
+	alarmPush,
+	powerLowPush,
+	hijackPush,
+	pushConfig,
+	pushSum,
+	pushPlatform,
+	pushToken,
+	createTime,
+	updateTime,
+	language,
+	description
+	) VALUES (
+	#{id},
+	#{deviceId},
+	#{deviceModel},
+	#{isValid},
+	#{lockOnPush},
+	#{alarmPush},
+	#{powerLowPush},
+	#{hijackPush},
+	#{pushConfig},
+	#{pushSum},
+	#{pushPlatform},
+	#{pushToken},
+	#{createTime},
+	#{updateTime},
+	#{language},
+	#{description}
+	)
+	]]>  
+	</insert>
+	<delete id="delete" parameterType="PushDevice">
+	DELETE FROM JY_PUSH_DEVICE  WHERE 1=1 
+	AND id=#{id} 
+	</delete>
+	<delete id="deleteBatch" parameterType="java.util.List">
+	DELETE FROM JY_PUSH_DEVICE 
+	WHERE id IN(
+		<foreach item="o" collection="list" open="" separator="," close="" >
+			#{o.id}
+		</foreach>
+		)
+	</delete>
+	<update id="update" parameterType="PushDevice">
+		UPDATE JY_PUSH_DEVICE 
+		SET 
+			deviceModel =#{deviceModel},
+			isValid =#{isValid},
+			lockOnPush =#{lockOnPush},
+			alarmPush =#{alarmPush},
+			powerLowPush =#{powerLowPush},
+			hijackPush =#{hijackPush},
+			pushConfig =#{pushConfig},
+			pushPlatform =#{pushPlatform},
+			pushToken =#{pushToken},
+			pushSum =#{pushSum},
+			updateTime =#{updateTime},
+			language =#{language},
+			description =#{description}
+		WHERE 
+			id=#{id}
+	</update>	
+	 	<select id="findDeviceId"  resultMap="base" parameterType="PushDevice">
+       SELECT t.* FROM JY_PUSH_DEVICE t WHERE 1=1 
+       <if test="deviceId != null and deviceId!='' ">
+        	AND t.deviceId=#{deviceId}
+       </if>
+    </select> 
+</mapper>

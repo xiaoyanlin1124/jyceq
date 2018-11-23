@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jy.repository.system.device.CeqDeviceDao">
+	<!-- com.jy.entity.system.device.CeqDeviceDao  -->
+ 	<resultMap id="base" type="CeqDevice" ></resultMap>
+ 	<select id="find"  resultMap="base" parameterType="CeqDevice">
+       SELECT t.* FROM CEQ_DEVICE t WHERE 1=1 
+       <if test="id != null and id!='' ">
+        	AND t.id=#{id}
+       </if>
+       <if test="device_id != null and device_id!='' ">
+        	AND t.device_id=#{device_id}
+       </if>
+    </select> 
+ 	<select id="findByPage"  resultMap="base" parameterType="CeqDevice">
+       SELECT t.* FROM CEQ_DEVICE t WHERE 1=1 
+        <if test="param.id!= null and param.id!='' ">
+        	AND t.id=#{param.id}
+       </if>
+       <if test="param.isValid!= null">
+        	AND t.isValid=#{param.isValid}
+       </if>
+       <if test="param.keyWord!= null">
+        	AND (
+        	t.device_id LIKE CONCAT('%',#{param.keyWord},'%')    
+        	OR   t.deviceName LIKE CONCAT('%',#{param.keyWord},'%')
+        	OR   t.deviceName LIKE CONCAT('%',#{param.keyWord},'%')
+        	)
+       </if>
+       order by t.createTime desc
+    </select>  
+    <select id="count"  resultType="int" parameterType="CeqDevice">
+       SELECT count(*) FROM CEQ_DEVICE t WHERE 1=1 
+    </select>        
+ 	<insert id="insert"  parameterType="CeqDevice">	
+ 	<![CDATA[
+	INSERT INTO CEQ_DEVICE(
+	id,
+	device_model,
+	device_name,
+	default_name,
+	device_id,
+	user_id,
+	device_password,
+	description,
+	lockOnPush,
+	hijackPush,
+	alarmPush,
+	powerLowPush,
+	pushToken,
+	pushPlatform,
+	createTime,
+	updateTime,
+	language
+	) VALUES (
+	#{id},
+	#{device_model},
+	#{device_name},
+	#{default_name},
+	#{device_id},
+	#{user_id},
+	#{device_password},
+	#{description},
+	#{lockOnPush},
+	#{hijackPush},
+	#{alarmPush},
+	#{powerLowPush},
+	#{pushToken},
+	#{pushPlatform},
+	#{createTime},
+	#{updateTime},
+	#{language}
+	)
+	]]>  
+	</insert>
+	<delete id="delete" parameterType="CeqDevice">
+	DELETE FROM CEQ_DEVICE  WHERE 1=1 
+	AND id=#{id} 
+	</delete>
+	<delete id="deleteBatch" parameterType="java.util.List">
+	DELETE FROM CEQ_DEVICE 
+	WHERE id IN(
+		<foreach item="o" collection="list" open="" separator="," close="" >
+			#{o.id}
+		</foreach>
+		)
+	</delete>
+	<update id="update" parameterType="CeqDevice">
+		UPDATE CEQ_DEVICE 
+		SET 
+		id=#{id} ,
+		device_model=#{device_model} ,
+		device_name=#{device_name} ,
+		default_name=#{default_name} ,
+		device_id=#{device_id} ,
+		user_id=#{user_id} ,
+		device_password=#{device_password} ,
+		description=#{description} ,
+		lockOnPush=#{lockOnPush} ,
+		hijackPush=#{hijackPush} ,
+		alarmPush=#{alarmPush} ,
+		powerLowPush=#{powerLowPush} ,
+		pushToken=#{pushToken} ,
+		pushPlatform=#{pushPlatform} ,
+		createTime=#{createTime} ,
+		updateTime=#{updateTime} ,
+		language=#{language} 
+		WHERE 
+			id=#{id}
+	</update>	
+	<update id="updateDeviceId" parameterType="CeqDevice">
+		UPDATE CEQ_DEVICE 
+		SET 
+		id=#{id} ,
+		device_model=#{device_model} ,
+		device_name=#{device_name} ,
+		default_name=#{default_name} ,
+		device_id=#{device_id} ,
+		user_id=#{user_id} ,
+		device_password=#{device_password} ,
+		description=#{description} ,
+		lockOnPush=#{lockOnPush} ,
+		hijackPush=#{hijackPush} ,
+		alarmPush=#{alarmPush} ,
+		powerLowPush=#{powerLowPush} ,
+		pushToken=#{pushToken} ,
+		pushPlatform=#{pushPlatform} ,
+		createTime=#{createTime} ,
+		updateTime=#{updateTime} ,
+		language=#{language} 
+		WHERE 
+			device_id=#{device_id}
+	</update>	
+	 	<select id="findDeviceId"  resultMap="base" parameterType="CeqDevice">
+       SELECT t.* FROM CEQ_DEVICE t WHERE 1=1 
+       <if test="id != null and id!='' ">
+        	AND t.id=#{id}
+       </if>
+       <if test="device_id != null and device_id!='' ">
+        	AND t.device_id=#{device_id}
+       </if>
+    </select> 
+</mapper>
